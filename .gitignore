@@ -1,0 +1,5 @@
+__pycache__
+.vscode
+
+agreementengine/env/
+agreementengine/db.sqlite3
