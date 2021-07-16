@@ -10,6 +10,7 @@ class Authoring(AgreementState):
         print('Initializing Authoring state')
     
     def check(self):
+        
         self.path.transition_to(Registration)
     
     def destroy(self):

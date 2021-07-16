@@ -3,6 +3,7 @@ import sys
 sys.path.append('../agreementengine')
 
 from agreementengine import AgreementPath, AgreementState
+from agreementengine.interfaces import *
 from tinydb import TinyDB
 
 class NDA(AgreementPath):
@@ -19,9 +20,13 @@ class NDA(AgreementPath):
     class Registration(AgreementState):
         def create(self):
             print('Initializing Registration state')
+            self.funds_raised = 0
+            self.interface.connect(PayPal)
         
         def check(self):
-            self.path.transition_to(NDA.Maintenance)
+            if self.funds_raised >= 500:
+                self.interface.emit(Slack, "Funding reached!")
+                self.path.transition_to(NDA.Maintenance)
         
         def destroy(self):
             print('Destructing Registration state')
@@ -47,6 +52,11 @@ class NDA(AgreementPath):
             print('Destructing Resolution state')
 
     init = Authoring
+    interfaces = (
+        PayPal,
+        MailGun,
+
+    )
 
 nda_contract = NDA()
 nda_contract.start()
