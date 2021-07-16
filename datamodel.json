@@ -1,0 +1,19 @@
+{
+    "uniqueid-8472920395": {
+        "internal": {
+            "path": "pathid-123849183",
+            "state": "REGISTRATION",
+            "users": [
+                "metagovid-97198234",
+                "metagovid-129381203"
+            ]
+        },
+        "record": [
+            {
+                "event": "import agreement"
+            },
+            {},
+            {}
+        ]
+    }
+}
