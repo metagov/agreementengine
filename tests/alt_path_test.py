@@ -2,10 +2,10 @@ import sys
 
 sys.path.append('../agreementengine')
 
-from agreementengine import AgreementPath, AgreementState
+from agreementengine import AgreementPath, AgreementProcess
 from tinydb import TinyDB
 
-class Authoring(AgreementState):
+class Authoring(AgreementProcess):
     def create(self):
         print('Initializing Authoring state')
     
@@ -16,7 +16,7 @@ class Authoring(AgreementState):
     def destroy(self):
         print('Destructing Authoring state')
 
-class Registration(AgreementState):
+class Registration(AgreementProcess):
     def create(self):
         print('Initializing Registration state')
     
@@ -26,7 +26,7 @@ class Registration(AgreementState):
     def destroy(self):
         print('Destructing Registration state')
 
-class Maintenance(AgreementState):
+class Maintenance(AgreementProcess):
     def create(self):
         print('Initializing Maintenance state')
     
@@ -36,7 +36,7 @@ class Maintenance(AgreementState):
     def destroy(self):
         print('Destructing Maintenance state')
 
-class Resolution(AgreementState):
+class Resolution(AgreementProcess):
     def create(self):
         print('Initializing Resolution state')
     

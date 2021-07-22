@@ -1,2 +1,2 @@
 from .path import AgreementPath
-from .state import AgreementState
+from .process import AgreementProcess

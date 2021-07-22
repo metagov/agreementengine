@@ -1,4 +1,4 @@
-class AgreementState:
+class AgreementProcess:
     def __init__(self, path):
         self.path = path
         self.create()
@@ -7,6 +7,9 @@ class AgreementState:
         return self.__class__.__name__
 
     def create(self):
+        pass
+    
+    def receive(self, payload):
         pass
 
     def destroy(self):
