@@ -2,6 +2,8 @@ from .model import AgreementModel
 
 class AgreementPath:
     interfaces = []
+    db = None
+    
     def __init__(self):
         self.name = self.__class__.__name__
         self.state = None
@@ -11,9 +13,19 @@ class AgreementPath:
         self.setup()
 
     @classmethod
-    def filter(cls, request):
-        for i in cls.interfaces:
-            i.filter(request)
+    def route(cls, request):
+        for Interface in cls.interfaces:
+            if Interface.filter(request):
+                # Interface.
+                pass
+                return True
+
+        return False
+
+    @staticmethod
+    def get_agreement(aeid):
+        pass
+
 
     def setup(self):
         pass

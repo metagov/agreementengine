@@ -1,5 +1,6 @@
 __pycache__
 .vscode
+db.json
 
 agreementengine/env/
 agreementengine/db.sqlite3

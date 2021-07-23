@@ -3,7 +3,7 @@ import sys
 sys.path.append('../agreementengine')
 
 from agreementengine import AgreementPath, AgreementProcess
-from agreementengine.listener import Listener
+from agreementengine.server import Server
 from agreementengine.interface import Interface
 
 
@@ -27,6 +27,6 @@ class ExampleAgreement(AgreementPath):
 
 
 
-server = Listener()
+server = Server('db.json')
 server.add_path(ExampleAgreement)
 server.run()
