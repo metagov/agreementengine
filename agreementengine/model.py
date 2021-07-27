@@ -1,6 +1,12 @@
-import dataset
-
 class AgreementModel:
-    def __init__(self):
-        self.db_fn = 'agreements.db'
-        self.db = dataset.connect(f'sqlite:///{self.db_fn}')
+    def __init__(self, db, doc_id=None):
+        if doc_id:
+            pass
+
+    
+    def get(self, key):
+        pass
+
+    def set(self, key, val):
+        pass
+

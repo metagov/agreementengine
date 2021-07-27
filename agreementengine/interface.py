@@ -1,12 +1,12 @@
 class Interface:
-    @classmethod
-    def filter(cls, request):
+    def __init__(self, request):
+        self.request = request
+
+    def filter(request):
         return False
 
-    @classmethod
-    def parse(cls, request):
+    def parse(request):
         return request
 
-    @classmethod
-    def match(cls, data):
-        pass
+    def match():
+        return []

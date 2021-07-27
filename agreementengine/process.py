@@ -14,9 +14,3 @@ class AgreementProcess:
 
     def destroy(self):
         pass
-
-    def receive(self):
-        pass
-
-    def transmit(self):
-        pass
