@@ -37,7 +37,7 @@ class AgreementPath:
                         # Data must match the Interface being used
                         (QueryInterface.type == Interface.__name__) &
                         # Applying all queries written in Interface.match() 
-                        reduce(operator.and_, Interface.match())
+                        reduce(operator.and_, Interface.match(request))
                     )
                 )
 
@@ -51,10 +51,10 @@ class AgreementPath:
                     agreement.send(data)
 
                 elif len(documents) > 1: # matched many
-                    pass
+                    return False
+
                 else: # matched none
                     cls.create()
-                    pass
 
                 return True
         return False

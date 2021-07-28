@@ -3,10 +3,10 @@ class Interface:
         self.request = request
 
     def filter(request):
-        return False
+        return True
 
     def parse(request):
-        return request
+        return request.json
 
-    def match():
+    def match(request):
         return []
