@@ -25,6 +25,7 @@ class TestInterface(Interface):
 
 class ExampleAgreement(AgreementPath):
     class Authoring(AgreementProcess):
+        interfaces = [TestInterface]
         def check(self):
             self.path.transition_to(ExampleAgreement.End)
     

@@ -3,7 +3,6 @@ class AgreementModel:
         if doc_id:
             pass
 
-    
     def get(self, key):
         pass
 

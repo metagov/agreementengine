@@ -1,6 +1,6 @@
-from interface import Interface
+from .interface import Interface
 from .model import AgreementModel
-from tinydb import Query
+from tinydb.queries import QueryInstance
 from functools import reduce
 import operator
 
@@ -27,34 +27,29 @@ class AgreementPath:
     @classmethod
     def route(cls, request):
         for Interface in cls.interfaces:
-            if Interface.filter(request):
+            # Creating interface object
+            interface = Interface(request)
+            if interface.filter():
+                
+                match = interface.match()
 
-                QueryAgreement = Query()
-                QueryInterface = Query()
-
-                documents = cls.db.search(
-                    QueryAgreement.interfaces.any(
-                        # Data must match the Interface being used
-                        (QueryInterface.type == Interface.__name__) &
-                        # Applying all queries written in Interface.match() 
-                        reduce(operator.and_, Interface.match(request))
-                    )
-                )
-
-                if len(documents) == 1: # matched one
-                    document = documents[0]
-                    doc_id = document.doc_id
-
-                    data = Interface.parse(request)
-
-                    agreement = cls.recall(doc_id)
-                    agreement.send(data)
-
-                elif len(documents) > 1: # matched many
-                    return False
-
-                else: # matched none
-                    cls.create()
+                if type(match) == QueryInstance:
+                    docs = cls.db.search(match)
+                    num_docs = len(docs)
+                    
+                    # Ideal scenario, one agreement matched
+                    if num_docs == 1:
+                        # doc_id = docs[0].doc_id
+                        # agreement = cls.recall(doc_id)
+                        pass
+                    
+                    # Too many agreements matched
+                    elif num_docs > 1:
+                        pass
+                    
+                    # No agreements matched, use other return type to make a new agreement
+                    elif num_docs == 0:
+                        pass
 
                 return True
         return False

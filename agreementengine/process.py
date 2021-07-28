@@ -6,11 +6,8 @@ class AgreementProcess:
     def __repr__(self):
         return self.__class__.__name__
 
-    def create(self):
-        pass
+    def create(self): ...
     
-    def receive(self, payload):
-        pass
+    def receive(self, payload): ...
 
-    def destroy(self):
-        pass
+    def destroy(self): ...
