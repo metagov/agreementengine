@@ -22,6 +22,13 @@ class Interface:
         )
         
         return query
+
+        Example new agreement match:
+
+        return self.new_agreement()
         """
         print('The default interface matches no agreements by default, please override the match() function.')
         return None
+    
+    def new_agreement(self):
+        return {}
