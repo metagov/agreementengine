@@ -7,16 +7,16 @@ from tinydb import Query
 import requests
 
 class ServerInterface(Interface):
-    def filter(request):
-        print(request.host_url)
-        print(request.url)
-        return request.remote_addr == '127.0.0.1'
+    def filter(self):
+        print(self.request.host_url)
+        print(self.request.url)
+        return self.request.remote_addr == '127.0.0.1'
     
-    def match(request):
-        data = request.json 
+    def match(self):
+        data = self.request.json 
         
         if data['type'] == 'new_request':
-            return Interface.NEW_AGREEMENT
+            return {}
 
         if data['type'] == 'new_pledge':
             return [

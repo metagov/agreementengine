@@ -8,15 +8,16 @@ from interfaces import *
 class GhostKnowledge(AgreementPath):
 
     class Authoring(AgreementProcess):
-        def first(self):
-            print('i exist')
+        def create(self):
+            print('i now exist')
         
-        def on_receive(self, payload):
-            self.model.set_content(payload)
-            self.path.transition_to()
+        def on_receive(self, data):
+            self.path.model.set('content', data)
+            self.path.terminate()
         
-        def last(self):
-            ServerInterface.report_id(self.model.id)
+        def destroy(self):
+            print('i am now dead')
+            # ServerInterface.report_id(self.model.id)
     
     interfaces = [
         ServerInterface

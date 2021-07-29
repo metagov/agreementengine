@@ -6,6 +6,9 @@ from tinydb.queries import QueryInstance
 class AgreementPath:
     interfaces = []
     db = None
+    default_model = {
+
+    }
 
     def __init__(self, model, process=None):
         self.name = self.__class__.__name__
@@ -15,13 +18,13 @@ class AgreementPath:
 
     @classmethod
     def create(cls):
-        agr = cls(AgreementModel())
+        agr = cls(AgreementModel(cls.db, init=cls.default_model))
         agr.start()
         return agr
 
     @classmethod
     def recall(cls, doc_id):
-        agr = cls(AgreementModel(doc_id=doc_id))
+        agr = cls(AgreementModel(cls.db, doc_id=doc_id))
         process_name = agr.model.get('process')
         Process = cls.__dict__[process_name]
         agr.process = Process(agr)
@@ -60,6 +63,7 @@ class AgreementPath:
                 else:
                     raise TypeError('Interface.match() must return a QueryInstance or a Dictionary')
 
+                agreement.process.on_receive(interface.parse())
                 return True
         return False
         
