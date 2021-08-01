@@ -19,9 +19,7 @@ class ServerInterface(Interface):
             return {}
 
         if data['type'] == 'new_pledge':
-            return [
-                Query().id == data['id']
-            ]
+            return int(self.request.json['agreement'])
     
     def report_id(_id):
         payload = {

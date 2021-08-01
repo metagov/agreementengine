@@ -10,14 +10,18 @@ class Server:
     def add_path(self, Path):
         print('Added route for', Path.__name__)
         # Adding new listener route for the Path
-        @self.flask_app.route(f'/{Path.__name__}', methods=['POST'])
+        @self.flask_app.route(f'/{Path.__name__}', methods=['POST', 'GET'])
         def respond():
-            if Path.route(request):
-                return Response(status=200)
-            else:
-                # not sure if this is the right response code?
-                # This response is given if the agreement path has no interface to handle the request
-                return Response(status=406)
+            if request.method == 'POST':
+                if Path.route(request):
+                    return Response(status=200)
+                else:
+                    # not sure if this is the right response code?
+                    # This response is given if the agreement path has no interface to handle the request
+                    return Response(status=406)
+            
+            elif request.method == 'GET':
+                return Path.db.all()
 
         # Adding database table for new Agreement Path
         Path.db = self.db.table(Path.__name__)

@@ -1,32 +1,18 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Ghost Knowledge</title>
 </head>
+
 <body>
-  <h1>Ghost Knowledge</h1>
-  <form method="post" name="new">
-    <input type="hidden" name="type" value="new_request">
-    <label>Your Twitter handle:</label><br>
-    <input type="text" name="twitter"><br><br>
-    <label>Your email:</label><br>
-    <input type="text" name="email"><br><br>
-    <label>I want an essay written about...</label><br>
-    <textarea rows="4" cols="50" name="content"></textarea><br><br>
-    <label>The ideal author of this essay is:</label><br>
-    <input type="text" name="author"><br><br>
-    <label>My intended contribution is </label>
-    <select name="contribution">
-      <option value="10">$10</option>
-      <option value="20">$20</option>
-      <option value="50">$50</option>
-      <option value="100">$100</option>
-      <option value="150">$150</option>
-      <option value="200">$200</option>
-      <option value="500">$500</option>
-      <option value="1000">$1000</option>
-    </select><br><br>
-    <button type="submit">Submit</button>
-  </form>
+    <h1>Ghost Knowledge</h1>
+    <button onclick="window.location.href='new_request';">
+        Make new request
+    </button>
+    <button onclick="window.location.href='new_pledge';">
+        Pledge existing request
+    </button>
 </body>
+
 </html>

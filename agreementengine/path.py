@@ -39,7 +39,11 @@ class AgreementPath:
                 
                 match = interface.match()
 
-                if type(match) == QueryInstance:
+                if type(match) == int:
+                    doc_id = match
+                    agreement = cls.recall(doc_id)
+
+                elif type(match) == QueryInstance:
                     docs = cls.db.search(match)
                     num_docs = len(docs)
                     
