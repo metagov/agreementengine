@@ -6,9 +6,7 @@ from tinydb.queries import QueryInstance
 class AgreementPath:
     interfaces = []
     db = None
-    default_model = {
-
-    }
+    default_model = {}
 
     def __init__(self, model, process=None):
         self.name = self.__class__.__name__
@@ -67,19 +65,22 @@ class AgreementPath:
                 else:
                     raise TypeError('Interface.match() must return a QueryInstance or a Dictionary')
 
-                agreement.process.on_receive(interface.parse())
+                agreement.process._send(interface.parse())
                 return True
         return False
         
     def start(self):
         self.process = self.init(self)
-        self.process.create()
+        self.process._create()
+        self.model.set('process', self.process.name)
 
     def transition_to(self, NextState):
-        self.process.destroy()
+        self.process._destroy()
         self.process = NextState(self)
-        self.process.create()
+        self.process._create()
+        self.model.set('process', self.process.name)
     
     def terminate(self):
-        self.process.destroy()
+        self.process._destroy()
+        self.model.set('process', None)
         self.alive = False

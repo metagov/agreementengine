@@ -8,8 +8,6 @@ import requests
 
 class ServerInterface(Interface):
     def filter(self):
-        print(self.request.host_url)
-        print(self.request.url)
         return self.request.remote_addr == '127.0.0.1'
     
     def match(self):

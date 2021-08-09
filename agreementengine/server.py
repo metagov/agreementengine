@@ -21,7 +21,15 @@ class Server:
                     return Response(status=406)
             
             elif request.method == 'GET':
-                return Path.db.all()
+                agreements = Path.db.all()
+                package = {
+                    "count": len(agreements),
+                    "agreements": {}
+                }
+                for a in agreements:
+                    package["agreements"][str(a.doc_id)] = a['public']
+                
+                return package
 
         # Adding database table for new Agreement Path
         Path.db = self.db.table(Path.__name__)
