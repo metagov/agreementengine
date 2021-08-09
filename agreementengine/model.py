@@ -1,5 +1,9 @@
 import datetime
 
+from tinydb import TinyDB
+
+from process import AgreementProcess
+
 class AgreementModel:
     def __init__(self, db, doc_id=None, init=None):
         """
@@ -38,10 +42,14 @@ class AgreementModel:
             self.doc_id = db.insert(model)
 
     def get(self, key):
-        return self.db.get(doc_id=self.doc_id)[key]
+        return self.db.get(doc_id=self.doc_id)['data'][key]
 
     def set(self, key, val):
-        self.db.update({key: val}, doc_ids=[self.doc_id])
+        self.db.update(lambda d: d['data'].update({key: val}), doc_ids=[self.doc_id])
+
+    def update(self, key, func):
+        val = self.get(key)
+        self.set(key, func(val))
 
     def add_record(self, data):
         new_record = {

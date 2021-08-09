@@ -16,6 +16,7 @@ class GhostKnowledge(AgreementPath):
             if data['type'] == 'new_request':
                 self.model.add_record(data)
                 self.model.set('total', int(data['contribution']))
+                
             elif data['type'] == 'new_pledge':
                 self.model.add_record(data)
                 total = self.model.get('total')
@@ -26,7 +27,6 @@ class GhostKnowledge(AgreementPath):
         
         def last(self):
             print('i am now dead')
-            # ServerInterface.report_id(self.model.id)
     
     class Registration(AgreementProcess):
         def create(self):
