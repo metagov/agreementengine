@@ -23,6 +23,9 @@ class ServerInterface(Interface):
         elif data['type'] == 'accept_request':
             return int(self.request.json['id'])
 
+        elif data['type'] == 'submit_essay':
+            return int(self.request.json['id'])
+
 
 class MetagovInterface:
     def __init__(self, url, slug):

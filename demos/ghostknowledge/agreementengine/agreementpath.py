@@ -13,6 +13,8 @@ class GhostKnowledge(AgreementPath):
         def on_receive(self, data):
             if data['type'] == 'new_request':
                 self.model.set('data', 'total_contributions', int(data['contribution']))
+
+                self.model.set('data', 'emails', [data['email']])
                 
                 self.model.set('public', 'content', data['content'])
                 self.model.set('public', 'author', data['author'])
@@ -29,6 +31,7 @@ class GhostKnowledge(AgreementPath):
                 
             elif data['type'] == 'new_pledge':
                 self.model.update('data', 'total_contributions', lambda x: x + int(data['contribution']))
+                self.model.update('data', 'emails', lambda l: l + [data['email']])
                 self.model.set('public', 'total_contributions', self.model.get('data', 'total_contributions'))
 
             if self.model.get('data', 'total_contributions') > 500:
@@ -58,10 +61,35 @@ class GhostKnowledge(AgreementPath):
         def first(self):
             mg = MetagovInterface(self.model.get('data', 'metagov_url'), self.model.get('data', 'metagov_slug'))
             
-            message = f"When you are ready to submit your essay, use this link: http://lukvmil.com/submit/{self.model.doc_id} and the security code from before."
+            message = f"When you are ready to submit your essay, use this link: http://lukvmil.com/submit_essay/{self.model.doc_id} and the security code from before."
             mg.do('twitter.send-dm', {'user_id': self.model.get('data', 'author_id'), 'text': message})
 
+        def on_receive(self, data):
+            if data['type'] == 'submit_essay':
+                if data['security_code'] == self.model.get('data', 'security_code'):
+                    self.model.set('data', 'essay', data['content'])
+                    self.path.transition_to(GhostKnowledge.Resolution)
+        
+        def last(self):
+            mg = MetagovInterface(self.model.get('data', 'metagov_url'), self.model.get('data', 'metagov_slug'))
             
+            message = f"Thank you for submitting your essay! ${self.model.get('data', 'total_contributions')} has been transferred to your PayPal account."
+            mg.do('twitter.send-dm', {'user_id': self.model.get('data', 'author_id'), 'text': message})
+
+    class Resolution(AgreementProcess):
+        def first(self):
+            mg = MetagovInterface(self.model.get('data', 'metagov_url'), self.model.get('data', 'metagov_slug'))
+
+            for email in self.model.get('data', 'emails'):
+                mg.do('mailgun.send-mail', {
+                    'from': 'agreementengine@mg.metagov.org',
+                    'to': email,
+                    'subject': 'An essay you supported has been written!',
+                    'text': self.model.get('data', 'essay')
+                })
+
+            self.path.terminate()
+
 
     
     interfaces = [
@@ -70,6 +98,7 @@ class GhostKnowledge(AgreementPath):
 
     default_model = {
         "total_contributions": 0,
+        "emails": [],
         "metagov_url": "http://127.0.0.1:8000",
         "metagov_slug": "14eb41ec-99ac-4bcc-83f1-a9514480c176"
     }

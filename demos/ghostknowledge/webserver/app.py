@@ -57,6 +57,18 @@ def accept_request(id):
     agreement = data['agreements'][id]
 
     return render_template("accept_request.html", agreement=agreement)
+
+@app.route("/submit_essay/<id>", methods=["POST", "GET"])
+def submit_essay(id):
+    if request.method == "POST":
+        form = dict(request.form)
+        form['id'] = id
+        print(form)
+        try:
+            requests.post(url=ae_url, json=form)
+        except requests.exceptions.ConnectionError:
+            print('Failed to send form')
     
+    return render_template("submit_essay.html")
 
 app.run(host='0.0.0.0', port=4999)
