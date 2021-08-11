@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ghost Knowledge</title>
+</head>
+<body>
+  <h1>Ghost Knowledge</h1>
+  <form method="post" name="new">
+    <input type="hidden" name="type" value="accept_request">
+    <input type="hidden" name="id" value="{{agreement['id']}}">
+    <label>Dear {{agreement['author']}},</label><br><br>
+    <label>You have been invited to write a post about the following topic:</label><br>
+    <textarea rows="4" cols="50" name="content" readonly>{{agreement['content']}}</textarea><br><br>
+    <label>In return you will be compensated ${{agreement['total_contributions']}} USD.</label><br><br>
+    <label>Please enter your security code:</label><br>
+    <input type="text" name="security_code"><br><br>
+    <label>Do you agree to write this essay for the offered amount?</label><br>
+    <select name="accept">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select><br><br>
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>

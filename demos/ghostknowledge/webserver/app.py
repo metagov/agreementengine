@@ -41,14 +41,22 @@ def new_pledge():
                 'content': data['content']
             })
 
-    # db = TinyDB('../agreementengine/db.json').table('GhostKnowledge')
-    # agreements = []
-    # for doc in db.all():
-    #     agreements.append({
-    #         'id': doc.doc_id,
-    #         'content': doc['content']['content']
-    #     })
-
     return render_template("new_pledge.html", agreements=agreements)
+
+@app.route("/accept_request/<id>", methods=["POST", "GET"])
+def accept_request(id):
+    if request.method == "POST":
+        form = dict(request.form)
+        print(form)
+        try:
+            requests.post(url=ae_url, json=form)
+        except requests.exceptions.ConnectionError:
+            print('Failed to send form')
+    
+    data = requests.get(url=ae_url).json()
+    agreement = data['agreements'][id]
+
+    return render_template("accept_request.html", agreement=agreement)
+    
 
 app.run(port=4999)

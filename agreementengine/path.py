@@ -23,7 +23,7 @@ class AgreementPath:
     @classmethod
     def recall(cls, doc_id):
         agr = cls(AgreementModel(cls.db, doc_id=doc_id))
-        process_name = agr.model.get('process')
+        process_name = agr.model.get('agreement', 'process')
         Process = cls.__dict__[process_name]
         agr.process = Process(agr)
         return agr
@@ -60,7 +60,7 @@ class AgreementPath:
                 
                 elif type(match) == dict:
                     agreement = cls.create()
-                    agreement.model.set(interface.name, match)
+                    agreement.model.set('agreement', interface.name, match)
 
                 else:
                     raise TypeError('Interface.match() must return a QueryInstance or a Dictionary')
@@ -72,15 +72,12 @@ class AgreementPath:
     def start(self):
         self.process = self.init(self)
         self.process._create()
-        self.model.set('process', self.process.name)
 
     def transition_to(self, NextState):
         self.process._destroy()
         self.process = NextState(self)
         self.process._create()
-        self.model.set('process', self.process.name)
     
     def terminate(self):
         self.process._destroy()
-        self.model.set('process', None)
         self.alive = False
