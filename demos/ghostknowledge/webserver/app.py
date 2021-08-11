@@ -59,4 +59,4 @@ def accept_request(id):
     return render_template("accept_request.html", agreement=agreement)
     
 
-app.run(port=4999)
+app.run(host='0.0.0.0', port=4999)
