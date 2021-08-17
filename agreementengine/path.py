@@ -1,6 +1,5 @@
 from .interface import Interface
 from .model import AgreementModel
-from .exceptions import *
 from tinydb.queries import QueryInstance
 
 class AgreementPath:

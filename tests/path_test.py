@@ -29,28 +29,7 @@ class NDA(AgreementPath):
             print('Destructing Registration state')
 
     init = Authoring
-    interfaces = (
+    interfaces = [
         Interface,
         DummyInterface
-    )
-
-nda_contract = NDA()
-nda_contract.start()
-while nda_contract.alive:
-    nda_contract.tick()
-
-
-# class AgreementServer:
-#     def __init__(self):
-#         pass
-
-# app = AgreementServer(
-#     paths=(
-#         NDA,
-#         AgreementPath
-#     ),
-#     interfaces=(
-
-#     )
-# )
-# app.run()
+    ]

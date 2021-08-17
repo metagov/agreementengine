@@ -4,7 +4,6 @@ sys.path.append('..\..\..')
 
 from agreementengine import AgreementPath, AgreementProcess
 from interfaces import *
-import requests
 import random
 
 class GhostKnowledge(AgreementPath):
@@ -61,7 +60,8 @@ class GhostKnowledge(AgreementPath):
         def first(self):
             mg = MetagovInterface(self.model.get('data', 'metagov_url'), self.model.get('data', 'metagov_slug'))
             
-            message = f"When you are ready to submit your essay, use this link: http://lukvmil.com/submit_essay/{self.model.doc_id} and the security code from before."
+            message = f"When you are ready to submit your essay, use this link: \
+                        http://lukvmil.com/submit_essay/{self.model.doc_id} and the security code from before."
             mg.do('twitter.send-dm', {'user_id': self.model.get('data', 'author_id'), 'text': message})
 
         def on_receive(self, data):
@@ -73,7 +73,8 @@ class GhostKnowledge(AgreementPath):
         def last(self):
             mg = MetagovInterface(self.model.get('data', 'metagov_url'), self.model.get('data', 'metagov_slug'))
             
-            message = f"Thank you for submitting your essay! ${self.model.get('data', 'total_contributions')} has been transferred to your PayPal account."
+            message = f"Thank you for submitting your essay! ${self.model.get('data', 'total_contributions')} \
+                        has been transferred to your PayPal account."
             mg.do('twitter.send-dm', {'user_id': self.model.get('data', 'author_id'), 'text': message})
 
     class Resolution(AgreementProcess):
@@ -91,7 +92,6 @@ class GhostKnowledge(AgreementPath):
             self.path.terminate()
 
 
-    
     interfaces = [
         ServerInterface
     ]
