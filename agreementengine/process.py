@@ -23,3 +23,10 @@ class AgreementProcess:
     def on_receive(self, data): ...
 
     def last(self): ...
+
+
+class PluginAgreementProcess(AgreementProcess):
+    @classmethod
+    def port(cls, transitions):
+        cls.transitions = transitions
+        return cls

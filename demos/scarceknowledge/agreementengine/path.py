@@ -6,7 +6,7 @@ from agreementengine import AgreementPath, AgreementProcess
 from interfaces import *
 import random
 
-class GhostKnowledge(AgreementPath):
+class ScarceKnowledge(AgreementPath):
 
     class Authoring(AgreementProcess):
         def on_receive(self, data):
@@ -34,7 +34,7 @@ class GhostKnowledge(AgreementPath):
                 self.model.set('public', 'total_contributions', self.model.get('data', 'total_contributions'))
 
             if self.model.get('data', 'total_contributions') > 500:
-                self.path.transition_to(GhostKnowledge.Registration)
+                self.path.transition_to(ScarceKnowledge.Registration)
     
     class Registration(AgreementProcess):
         def first(self):
@@ -43,14 +43,14 @@ class GhostKnowledge(AgreementPath):
             
             mg = MetagovInterface(self.model.get('data', 'metagov_url'), self.model.get('data', 'metagov_slug'))
             
-            message = f"You've been invited to write an essay for Ghost Knowledge! View your request here: http://lukvmil.com/accept_request/{self.model.doc_id} and use the security code: {security_code}"
+            message = f"You've been invited to write an essay for Scarce Knowledge! View your request here: http://lukvmil.com/accept_request/{self.model.doc_id} and use the security code: {security_code}"
             mg.do('twitter.send-dm', {'user_id': self.model.get('data', 'author_id'), 'text': message})
         
         def on_receive(self, data):
             if data['type'] == 'accept_request':
                 if data['security_code'] == self.model.get('data', 'security_code'):
                     if data['accept'] == 'yes':
-                        self.path.transition_to(GhostKnowledge.Maintenance)
+                        self.path.transition_to(ScarceKnowledge.Maintenance)
 
                     elif data['accept'] == 'no':
                         self.path.terminate()
@@ -68,7 +68,7 @@ class GhostKnowledge(AgreementPath):
             if data['type'] == 'submit_essay':
                 if data['security_code'] == self.model.get('data', 'security_code'):
                     self.model.set('data', 'essay', data['content'])
-                    self.path.transition_to(GhostKnowledge.Resolution)
+                    self.path.transition_to(ScarceKnowledge.Resolution)
         
         def last(self):
             mg = MetagovInterface(self.model.get('data', 'metagov_url'), self.model.get('data', 'metagov_slug'))
