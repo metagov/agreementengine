@@ -2,7 +2,7 @@ import sys
 
 from flask.wrappers import Response
 
-sys.path.append('..\..\..')
+sys.path.append('..\..')
 
 from agreementengine import AgreementPath, AgreementProcess
 from agreementengine.interface import Interface
