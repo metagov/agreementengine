@@ -1,3 +1,4 @@
+import agreementengine
 from .interface import Interface
 from .model import AgreementModel
 from tinydb.queries import QueryInstance
@@ -23,9 +24,10 @@ class AgreementPath:
     def recall(cls, doc_id):
         agr = cls(AgreementModel(cls.db, doc_id=doc_id))
         process_name = agr.model.get('agreement', 'process')
-        Process = cls.__dict__[process_name]
-        agr.process = Process(agr)
-        return agr
+        if process_name:
+            Process = cls.__dict__[process_name]
+            agr.process = Process(agr)
+            return agr
 
     @classmethod
     def route(cls, request):
@@ -47,15 +49,20 @@ class AgreementPath:
                     # Ideal scenario, one agreement matched
                     if num_docs == 1:
                         doc_id = docs[0].doc_id
+                        print(docs)
+                        print(doc_id)
                         agreement = cls.recall(doc_id)
+                        if not agreement: return False
                     
                     # Too many agreements matched
                     elif num_docs > 1:
-                        pass
+                        print('Query matched too many agreements')
+                        return False
                     
                     # No agreements matched, use other return type to make a new agreement
                     elif num_docs == 0:
-                        pass
+                        print('Query did not match any agreements')
+                        return False
                 
                 elif type(match) == dict:
                     agreement = cls.create()
