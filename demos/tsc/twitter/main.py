@@ -34,6 +34,8 @@ def scheduled_update(sc):
     s.enter(60, 1, scheduled_update, (sc,))
     before = time.time()
 
+    print('Checking...')
+
     for status in cursor.items():
         print(f"Received tweet #{status.id}, forwarding...")
 
