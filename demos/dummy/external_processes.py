@@ -4,7 +4,7 @@ sys.path.append('../../..')
 
 from agreementengine import AgreementProcess
 
-class TestProcess(AgreementProcess):
+class SwappableProcess(AgreementProcess):
     transitions = []
 
     @classmethod
@@ -12,6 +12,7 @@ class TestProcess(AgreementProcess):
         cls.transitions = transitions
         return cls
 
+class TestProcess(SwappableProcess):
     def first(self):
         print('Initializing TestProcess')
         self.path.transition_to(self.transitions[0])
@@ -21,3 +22,8 @@ class TestProcess(AgreementProcess):
     
     def last(self):
         print('Destroying TestProcess')
+
+
+class SwappableAuthoring(SwappableProcess):
+    def on_receive(self, data):
+        ...
